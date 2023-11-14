@@ -48,8 +48,19 @@ typedef struct  s_data {
   int         bits_per_pixel;
   int         line_length;
   int         endian;
-}               t_data;
-
+}t_data;
+typedef struct s_image
+{
+    void *img;
+    char *addr;
+    int bits_per_pixel;
+    int line_length;
+    int endian;
+    int h;
+    int w;
+    double x;
+    double y;
+} t_image;
 typedef struct s_cub
 {
     char **map;
@@ -84,8 +95,8 @@ typedef struct s_cub
   int bottom;
   int top;
   int map_height;
+  t_image t[4];
 }   t_cub;
-
 
 
 
