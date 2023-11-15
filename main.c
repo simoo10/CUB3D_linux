@@ -1,49 +1,54 @@
 #include"cub3d.h"
 
-void texture_init (t_cub *game, t_image *texture, char* path)
+void texture_init (t_cub *game)
 {
+    printf("===>>0%s\n",game->no);
         game->t[0].img = mlx_xpm_file_to_image(game->mlx, game->no, &(game->t[0].w), &(game->t[0].h));
         if (!game->t[0].img)
         {
             ft_putstr_fd("error: texture '", 2);
-            ft_putstr_fd(path, 2);
+            //ft_putstr_fd(path, 2);
             ft_putstr_fd("' not found.\n", 2);
             exit (0);
         }
-        game->t[0].addr = mlx_get_data_addr(texture->img, &(game->t[0].bits_per_pixel), &(game->t[0].line_length), &(game->t[0].endian));
+        game->t[0].addr = mlx_get_data_addr(game->t[0].img, &(game->t[0].bits_per_pixel), &(game->t[0].line_length), &(game->t[0].endian));
         game->t[0].x = 0;
         game->t[0].y = 0;
+        printf("===>>1%s\n",game->so);
         game->t[1].img = mlx_xpm_file_to_image(game->mlx, game->so, &(game->t[1].w), &(game->t[1].h));
         if (!game->t[1].img)
         {
             ft_putstr_fd("error: texture '", 2);
-            ft_putstr_fd(path, 2);
+          //  ft_putstr_fd(path, 2);
             ft_putstr_fd("' not found.\n", 2);
             exit (0);
         }
-        game->t[1].addr = mlx_get_data_addr(texture->img, &(game->t[1].bits_per_pixel), &(game->t[1].line_length), &(game->t[1].endian));
+        game->t[1].addr = mlx_get_data_addr(game->t[1].img, &(game->t[1].bits_per_pixel), &(game->t[1].line_length), &(game->t[1].endian));
         game->t[1].x = 0;
         game->t[1].y = 0;
+        printf("===>>2%s\n",game->we);
         game->t[2].img = mlx_xpm_file_to_image(game->mlx, game->we, &(game->t[2].w), &(game->t[2].h));
+        
         if (!game->t[2].img)
         {
             ft_putstr_fd("error: texture '", 2);
-            ft_putstr_fd(path, 2);
+           // ft_putstr_fd(path, 2);
             ft_putstr_fd("' not found.\n", 2);
             exit (0);
         }
-        game->t[2].addr = mlx_get_data_addr(texture->img, &(game->t[2].bits_per_pixel), &(game->t[2].line_length), &(game->t[2].endian));
+        game->t[2].addr = mlx_get_data_addr(game->t[2].img, &(game->t[2].bits_per_pixel), &(game->t[2].line_length), &(game->t[2].endian));
         game->t[2].x = 0;
         game->t[2].y = 0;
+        printf("===>>3%s\n",game->ea);
         game->t[3].img = mlx_xpm_file_to_image(game->mlx, game->ea, &(game->t[3].w), &(game->t[3].h));
         if (!game->t[3].img)
         {
             ft_putstr_fd("error: texture '", 2);
-            ft_putstr_fd(path, 2);
+          //  ft_putstr_fd(path, 2);
             ft_putstr_fd("' not found.\n", 2);
             exit (0);
         }
-        game->t[3].addr = mlx_get_data_addr(texture->img, &(game->t[3].bits_per_pixel), &(game->t[3].line_length), &(game->t[3].endian));
+        game->t[3].addr = mlx_get_data_addr(game->t[3].img, &(game->t[3].bits_per_pixel), &(game->t[3].line_length), &(game->t[3].endian));
         game->t[3].x = 0;
         game->t[3].y = 0;
 }
@@ -68,15 +73,17 @@ void make_wall(t_cub *cub,double orientation)
     cub->top=(HEIGHT/2)-(cub->hight_Wall/2);
     cub->bottom=cub->top+cub->hight_Wall;
 }
-int get_texture_color(t_image *texture, int x, int y)
+int get_texture_color(t_cub *texture, int x, int y,int text_ort)
 {
     int pixel_position;
     unsigned int color;
 
-    if (x < 0 || y < 0 || x >= texture->w || y >= texture->h)
+   // printf("-----=====%d",text_ort);
+
+    if (x < 0 || y < 0 || x >= texture->t[text_ort].w || y >= texture->t[text_ort].h)
         return (0);
-    pixel_position = y * texture->line_length + x * (texture->bits_per_pixel / 8);
-    color = *(unsigned int *)(texture->addr + pixel_position);
+    pixel_position = y * texture->t[text_ort].line_length + x * (texture->t[text_ort].bits_per_pixel / 8);
+    color = *(unsigned int *)(texture->t[text_ort].addr + pixel_position);
     return (color);
 }
 
@@ -86,30 +93,29 @@ void dr_wall(t_cub *cub, int counter)
     int y;
     double j;
     double l;
-    int text_ort=2;
+    int text_ort=0;
 
     //text_ort = 0;
-    if(cub->orientation >= 0 && cub->orientation < PI / 2)
-    {
-       // printf("orientation = %f\n",cub->orientation);
-        text_ort = 0;
-    }
-    else if(cub->orientation >= PI / 2 && cub->orientation < PI)
-    {
-        //printf("orientation = %f\n",cub->orientation);
-        text_ort = 1;
-    }
-    else if(cub->orientation >= PI && cub->orientation < (PI + PI / 2))
-    {
-        //printf("orientation = %f\n",cub->orientation);
-        text_ort = 2;
-    }
-    else if(cub->orientation >= (PI + PI / 2) && cub->orientation < (PI * 2))
-    {
-       // printf("orientation = %f\n",cub->orientation);
-        text_ort = 3;
-    }
-   // printf("text_ort = %d\n",text_ort);
+    // if(cub->orientation >= 0 && cub->orientation < PI / 2)
+    // {
+    //    // printf("orientation = %f\n",cub->orientation);
+    //     text_ort = 0;
+    // }
+    // else if(cub->orientation >= PI / 2 && cub->orientation < PI)
+    // {
+    //     //printf("orientation = %f\n",cub->orientation);
+    //     text_ort = 1;
+    // }
+    // else if(cub->orientation >= PI && cub->orientation < (PI + PI / 2))
+    // {
+    //     //printf("orientation = %f\n",cub->orientation);
+    //     text_ort = 2;
+    // }
+    // else if(cub->orientation >= (PI + PI / 2) && cub->orientation < (PI * 2))
+    // {
+    //    // printf("orientation = %f\n",cub->orientation);
+    //     text_ort = 3;
+    // }
     y=0;
    // if (game->wall[i].side == VERTICAL)
     cub->t[text_ort].x = (int)cub->x_wall % (int)cub->t[text_ort].w;
@@ -117,7 +123,7 @@ void dr_wall(t_cub *cub, int counter)
   //  else if (game->wall[i].side == HORIZONTAL)
   //      game->textures[t].x = (int)game->wall[i].y % (int)game->textures[t].w;
     j = (double)cub->t[text_ort].h / cub->hight_Wall;
-    while(y<HEIGHT)
+    while(y<HEIGHT && text_ort<4)
     {
         if(y<cub->top)
             color=0xffffff;
@@ -128,12 +134,14 @@ void dr_wall(t_cub *cub, int counter)
             l = cub->t[text_ort].y;
             if (cub->hight_Wall > HEIGHT)
                  cub->t[text_ort].y += j * (cub->hight_Wall - HEIGHT) / 2;
-            color = get_texture_color(&cub->t[text_ort], cub->t[text_ort].x, cub->t[text_ort].y);
+            color = get_texture_color(cub, cub->t[text_ort].x, cub->t[text_ort].y,text_ort);
             cub->t[text_ort].y = l;
             cub->t[text_ort].y += j;
+            
         }
         my_mlx_pixel_put(cub,counter,y,color);
             y++;
+            
     }
 }
 void rays(t_cub *pos)
@@ -360,18 +368,14 @@ int main(int c,char **v)
     // }
     check_RGB(cub.c,&cub);
     check_RGB(cub.f, &cub);
-    //printf("f = %d\n",cub.f_rgb);
-    
+    //printf("f = %d\n",cub.f_rgb); 
     cub.mlx = mlx_init();
     cub.window = mlx_new_window(cub.mlx, WIDTH, HEIGHT, "CUb3D");
-    
-    texture_init(&cub, &cub.t[0], "./textures/wood0.xpm");
+    texture_init(&cub);
     cub.img = mlx_new_image(cub.mlx, WIDTH, HEIGHT);
     cub.addr = mlx_get_data_addr(cub.img, &cub.bits_per_pixel, &cub.line_length,
                                  &cub.endian);
-    // printf("--------\n");
     init_player(&cub);
-    // draw_map(&cub);
     mlx_hook(cub.window, 17, 0, (void *)exit, &cub);
     mlx_hook(cub.window, 2, 1L << 0, &move, &cub);
     mlx_loop_hook(cub.mlx, rendring_minimap, &cub);

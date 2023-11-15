@@ -1,7 +1,7 @@
-NO ./textures/eagle.xpm
-SO ./textures/u.xpm
+NO ./textures/u.xpm
+SO ./textures/d.xpm
 WE ./textures/r.xpm
-EA ./textures/d.xpm
+EA ./textures/eagle.xpm
 
 F 120,160,64
 
