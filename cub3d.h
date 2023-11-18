@@ -14,9 +14,13 @@
 #include"mlx.h"
 #define WIDTH 1080
 #define HEIGHT 1080
-#define SIZE 40
+#define SIZE 64
 #define PI 3.14
 #define ANGLE 30
+#define EAST 0
+#define WEST 1
+#define NORTH 2
+#define SOUTH 3
 
 // #  define ESC_KEY 53
 // #  define D_KEY 2
@@ -95,6 +99,7 @@ typedef struct s_cub
   int bottom;
   int top;
   int map_height;
+  int or;
   t_image t[4];
 }   t_cub;
 

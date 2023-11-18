@@ -52,6 +52,7 @@ void texture_init (t_cub *game)
         game->t[3].x = 0;
         game->t[3].y = 0;
 }
+
 double make_it_good(t_cub *game,double orientation, double o_distance)
 {
     double distance;
@@ -63,6 +64,7 @@ double make_it_good(t_cub *game,double orientation, double o_distance)
        distance = o_distance * cos(M_PI - angleDifference);
        return distance;
 }
+
 void make_wall(t_cub *cub,double orientation)
 {
     double distance_Wall;
@@ -73,6 +75,7 @@ void make_wall(t_cub *cub,double orientation)
     cub->top=(HEIGHT/2)-(cub->hight_Wall/2);
     cub->bottom=cub->top+cub->hight_Wall;
 }
+
 int get_texture_color(t_cub *texture, int x, int y,int text_ort)
 {
     int pixel_position;
@@ -87,7 +90,7 @@ int get_texture_color(t_cub *texture, int x, int y,int text_ort)
     return (color);
 }
 
-void dr_wall(t_cub *cub, int counter)
+void dr_wall(t_cub *cub, int counter,int hit_vert, int hit_horz)
 {
     int color;
     int y;
@@ -96,39 +99,41 @@ void dr_wall(t_cub *cub, int counter)
     int text_ort=0;
 
     //text_ort = 0;
-    // if(cub->orientation >= 0 && cub->orientation < PI / 2)
-    // {
-    //    // printf("orientation = %f\n",cub->orientation);
-    //     text_ort = 0;
-    // }
-    // else if(cub->orientation >= PI / 2 && cub->orientation < PI)
-    // {
-    //     //printf("orientation = %f\n",cub->orientation);
-    //     text_ort = 1;
-    // }
-    // else if(cub->orientation >= PI && cub->orientation < (PI + PI / 2))
-    // {
-    //     //printf("orientation = %f\n",cub->orientation);
-    //     text_ort = 2;
-    // }
-    // else if(cub->orientation >= (PI + PI / 2) && cub->orientation < (PI * 2))
-    // {
-    //    // printf("orientation = %f\n",cub->orientation);
-    //     text_ort = 3;
-    // }
+    if(cub->or==EAST)
+    {
+       // printf("orientation = %f\n",cub->orientation);
+        text_ort = EAST;
+    }
+    else if(cub->or==WEST)
+    {
+        //printf("orientation = %f\n",cub->orientation);
+        text_ort = WEST;
+    }
+    else if(cub->or==NORTH)
+    {
+        //printf("orientation = %f\n",cub->orientation);
+        text_ort = NORTH;
+    }
+    else if(cub->or==SOUTH)
+    {
+       // printf("orientation = %f\n",cub->orientation);
+        text_ort = SOUTH;
+     }
     y=0;
-   // if (game->wall[i].side == VERTICAL)
+   if (hit_vert)
     cub->t[text_ort].x = (int)cub->x_wall % (int)cub->t[text_ort].w;
-    cub->t[text_ort].y = 0;
-  //  else if (game->wall[i].side == HORIZONTAL)
+   else if (hit_horz)
+       cub->t[text_ort].x = (int)cub->y_wall % (int)cub->t[text_ort].w;
+
   //      game->textures[t].x = (int)game->wall[i].y % (int)game->textures[t].w;
+    cub->t[text_ort].y = 0;
     j = (double)cub->t[text_ort].h / cub->hight_Wall;
     while(y<HEIGHT && text_ort<4)
     {
         if(y<cub->top)
-            color=0xffffff;
+            color=cub->f_rgb;
         else if(y>cub->bottom)
-            color=0x00ff00;
+            color=cub->c_rgb;
         else
         {
             l = cub->t[text_ort].y;
@@ -144,6 +149,7 @@ void dr_wall(t_cub *cub, int counter)
             
     }
 }
+
 void rays(t_cub *pos)
 {
     double x;
@@ -152,11 +158,16 @@ void rays(t_cub *pos)
     int counter;
     double orientation;
     double or;
+    double xx;
+    double yy;
+    int hit_vert;
+    int hit_horz;
     double increment;
 
    
     num_ray=0;
     counter = 0;
+
     orientation = pos->orientation - (PI/6);
     increment = (PI/3) / WIDTH;
       while(orientation < pos-> orientation+(PI/6))
@@ -170,8 +181,19 @@ void rays(t_cub *pos)
        
         //orientation = pos->orientation;
         //my_mlx_pixel_put(pos, x, y, 0x1DF235);
+        yy=y;
+        xx=x;
         x += cos(orientation);
         y += sin(orientation);
+        hit_vert=0;
+        hit_horz=0;
+        if (pos->map[(int)y / SIZE][(int)(xx) / SIZE] == '1')
+                hit_vert = 1;
+        if (pos->map[(int)(yy) / SIZE][(int)x / SIZE] == '1')
+                hit_horz = 1;
+
+        
+
         //printf("-------> x,%d\n",(int)y / SIZE );
          if(y / SIZE <= 0 || x /SIZE <= 0 ||y/SIZE >=pos->map_height ||x / SIZE >= ft_strlen(pos->map[(int)(y / SIZE)]) || pos->map[(int)(y / SIZE)][(int)(x / SIZE)] == '1')
              break;
@@ -179,8 +201,24 @@ void rays(t_cub *pos)
       pos->x_wall=x;
       pos->y_wall=y; 
       make_wall(pos,orientation);
-      
-      dr_wall(pos, counter);
+      if(cos(orientation)>0 && hit_horz)
+      {
+        pos->or=EAST;
+      }
+      else if(cos(orientation)<0 && hit_horz)
+      {
+        pos->or=WEST;
+      }
+      else if(sin(orientation )>0 && hit_vert )
+      {
+        pos->or=NORTH;
+      }
+      else if(sin(orientation  )<0 && hit_vert)
+      {
+        pos->or=SOUTH;
+
+      }
+      dr_wall(pos, counter, hit_vert,hit_horz);
       counter++;
         orientation=orientation + increment;
       }
@@ -189,7 +227,7 @@ void rays(t_cub *pos)
 double calcul_distance(t_cub *cub)
 {
     double distance;
-    distance = sqrt(((cub->player.x - cub->x_wall)*(cub->player.x - cub->x_wall) )             +   ((cub->player.y - cub->y_wall)*(cub->player.y - cub->y_wall) ));
+    distance = sqrt(((cub->player.x - cub->x_wall)*(cub->player.x - cub->x_wall) ) +   ((cub->player.y - cub->y_wall)*(cub->player.y - cub->y_wall) ));
     return distance;
 }
 
@@ -305,9 +343,14 @@ int move(int keycode,t_cub *cub)
 void fill_orientation(char c,t_cub *cub)
 {
     if(c=='N')
+    {
+        printf("\\\\\\\\\\n");
         cub->orientation = PI * 1.5;
+    }
     if(c=='S')
+    {
         cub->orientation = PI * 0.5;
+    }
     if(c=='W')
         cub->orientation = 0;
     if(c=='E')
