@@ -382,7 +382,15 @@ void init_player(t_cub *cub)
         i++;
     }
 }
+void	ft_free(char **str)
+{
+	int	i;
 
+	i = 0;
+	while (str[i])
+		free(str[i++]);
+	free(str);
+}
 int main(int c,char **v)
 {
     t_cub cub;
@@ -403,15 +411,8 @@ int main(int c,char **v)
     i =0;
    //check_textures_path(&cub);
     map_checking(cub.map);
-    // int i = 0;
-    // while(cub.map[i])
-    // {
-    //     // printf("%s\n",cub.map[i]);
-    //     i++;
-    // }
-    check_RGB(cub.c,&cub);
-    check_RGB(cub.f, &cub);
-    //printf("f = %d\n",cub.f_rgb); 
+    cub.c_rgb = check_RGB(cub.c,&cub);
+    cub.f_rgb = check_RGB(cub.f, &cub);
     cub.mlx = mlx_init();
     cub.window = mlx_new_window(cub.mlx, WIDTH, HEIGHT, "CUb3D");
     texture_init(&cub);
@@ -423,4 +424,5 @@ int main(int c,char **v)
     mlx_hook(cub.window, 2, 1L << 0, &move, &cub);
     mlx_loop_hook(cub.mlx, rendring_minimap, &cub);
     mlx_loop(cub.mlx);
+    
 }
