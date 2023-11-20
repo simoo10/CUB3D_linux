@@ -1,4 +1,4 @@
-#include"../cub3d.h"
+#include "../cub3d.h"
 
 static size_t	ft_mystrlen(char *r, char e)
 {
@@ -29,7 +29,6 @@ static char	*copie(const char *s1, char d)
 	t[j] = 0;
 	return (t);
 }
-
 
 static size_t	lencount(char *t1, char n)
 {
@@ -155,7 +154,7 @@ int	ft_atoi(char *str)
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		r = r * 10 + str[i++] - '0';
-		if (r > __LONG_MAX__ + (n == 1))
+		if ((long int)r > __LONG_MAX__ + (n == 1))
 			error_msg("Error\n: Number is too big\n");
 	}
 	if (n)

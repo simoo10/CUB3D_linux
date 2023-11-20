@@ -1,5 +1,5 @@
 CC      = cc
-FLAGS	= -Wall -Wextra -Werror
+CFLAGS	= -Wall -Wextra -Werror
 LIBC	= ar -rc
 RM		= rm -f
 NAME	= cub3d
@@ -19,10 +19,10 @@ OBJ	= $(SRC:.c=.o)
 all: $(NAME)
 
 %.o: %.c 
-	$(CC) -g3 -Imlx -c $< -o $@
+	$(CC) $(CFLAGS) -g3 -Imlx -c $< -o $@
 
 $(NAME): $(OBJ)
-	$(CC) $(OBJ) -fsanitize=address  -lm -lmlx -lXext -lX11 -o $(NAME)
+	$(CC)  $(OBJ) -fsanitize=address  -lm -lmlx -lXext -lX11 -o $(NAME)
 
 clean:
 		$(RM) $(OBJ)
