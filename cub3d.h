@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: met-tahe <met-tahe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/22 22:46:11 by met-tahe          #+#    #+#             */
+/*   Updated: 2023/11/22 22:46:13 by met-tahe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -8,6 +20,7 @@
 # include "mlx.h"
 # include <fcntl.h>
 # include <math.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -30,6 +43,28 @@ typedef struct s_pars1
 	size_t		count2;
 	int			k;
 }				t_pars1;
+
+typedef struct s_pars2
+{
+	int			color;
+	int			y;
+	double		j;
+	double		l;
+	int			text_ort;
+}				t_pars2;
+
+typedef struct s_rays
+{
+	double		x;
+	double		y;
+	int			counter;
+	double		orientation;
+	double		xx;
+	double		yy;
+	int			hit_vert;
+	int			hit_horz;
+	double		increment;
+}				t_rays;
 
 typedef struct s_player
 {
@@ -88,12 +123,18 @@ typedef struct s_cub
 	int			endian;
 	t_data		data;
 	float		orientation;
-	double		hight_Wall;
+	double		hight_wall;
 	int			bottom;
 	int			top;
+	int			or_t;
 	int			map_height;
-	int or ;
 	t_image		t[4];
+	bool		move_up;
+	bool		move_down;
+	bool		move_right;
+	bool		move_left;
+	bool		turn_right;
+	bool		turn_left;
 }				t_cub;
 
 char			*get_next_line(int fd);
@@ -115,12 +156,12 @@ void			error_msg(char *msg);
 int				check_rgb(char *rgb);
 void			check_nb_rgb(char *s);
 void			map_checking(char **map);
-int				check_WE(char *s);
-int				check_NO(char *s);
-int				check_SO(char *s);
-int				check_EA(char *s);
-int				check_F(char *s);
-int				check_C(char *s);
+int				check_we(char *s);
+int				check_no(char *s);
+int				check_so(char *s);
+int				check_ea(char *s);
+int				check_f(char *s);
+int				check_c(char *s);
 int				skip_space(char *s);
 void			fill_textures(t_cub *cub, char *v);
 void			check_path(char *s);
@@ -145,4 +186,51 @@ void			my_mlx_pixel_put(t_cub *data, int x, int y, int color);
 void			rays(t_cub *pos);
 double			calcul_distance(t_cub *cub);
 void			ft_free(char **str);
+void			init_tpars1(t_pars1 *p);
+void			init_pl(t_player *pl);
+void			init_cub(t_cub *cub);
+void			init_data(t_data *data);
+void			init_rays(t_rays *r);
+char			**check_rgb_number(int i, char *rgb);
+void			check_rgb_character(char *n, int i);
+int				check_rgb(char *rgb);
+void			check_nb_rgb(char *s);
+void			check_first_line(char *s);
+void			check_around_zero(char **map, int i, int j);
+void			empty_file(char *v);
+void			empty_line(char v);
+double			make_it_good(t_cub *game, double orientation,
+					double o_distance);
+void			make_wall(t_cub *cub, double orientation);
+void			dr_wall(t_cub *cub, int counter, int hit_vert, int hit_horz);
+void			rays(t_cub *pos);
+void			take_text_or(double orientation, t_cub *pos, int hit_vert,
+					int hit_horz);
+void			update_xy(t_rays *r);
+void			draw_3d(t_cub *pos, t_rays *r);
+double			calcul_distance(t_cub *cub);
+void			textures_error(char *path);
+void			texture_init(t_cub *cub);
+int				get_texture_color(t_cub *cub, int x, int y, int text_ort);
+void			resit_xy(double *x, double *y);
+void			take_img_adr(t_image *t);
+int				or_text(int or);
+int				make_color(int y, int color, int counter, t_cub *cub);
+int				take_rgbcolor(int color, t_cub *cub, int y);
+void			init_pars2(t_pars2 *p);
+void			draw_empty(t_cub *cub, int x, int y);
+void			draw_player_position(t_cub *cub);
+void			draw(t_cub *cub, int i, int j);
+void			draw2(t_cub *cub, int i, int j);
+void			draw_map(t_cub *cub);
+void			calculatenewposition(t_cub *cub, float ort, float dist);
+int				move(int keycode, t_cub *cub);
+void			fill_orientation(char c, t_cub *cub);
+void			init_player(t_cub *cub);
+char			*take_paths(char *path, char *v, int *count, int i);
+int				check_tex1(int i, char *v, t_cub *cub);
+int				check_tex2(int i, char *v, t_cub *cub);
+void			fill_textures(t_cub *cub, char *v);
+void			file_existance(int fd, char *s);
+int				move_release(int keycode, t_cub *cub);
 #endif
