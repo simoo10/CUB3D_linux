@@ -6,7 +6,7 @@
 /*   By: met-tahe <met-tahe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 22:46:11 by met-tahe          #+#    #+#             */
-/*   Updated: 2023/11/22 22:46:13 by met-tahe         ###   ########.fr       */
+/*   Updated: 2023/11/23 15:59:14 by met-tahe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,8 +153,6 @@ char			**join_all(char *s, char c);
 void			check_textures_path(t_cub *cub);
 int				ft_atoi(char *str);
 void			error_msg(char *msg);
-int				check_rgb(char *rgb);
-void			check_nb_rgb(char *s);
 void			map_checking(char **map);
 int				check_we(char *s);
 int				check_no(char *s);
@@ -163,28 +161,15 @@ int				check_ea(char *s);
 int				check_f(char *s);
 int				check_c(char *s);
 int				skip_space(char *s);
-void			fill_textures(t_cub *cub, char *v);
 void			check_path(char *s);
-void			file_existance(int fd, char *s);
-void			empty_line(char s);
 int				check_empty_space(char *s);
 void			empty_file(char *s);
 void			ft_putstr_fd(char *s, int fd);
-void			draw_angle(t_cub *cub, int x, int y);
-void			draw_player_angle(t_cub *cub, int x, int y);
-void			draw_twoline_represent_angle(t_cub *cub, int x, int y);
-void			draw_lines(t_cub *cub, int x, int y);
-void			draw_30_degree_angle(t_cub *cub, int x, int y);
 int				rendring_minimap(t_cub *cub);
 void			draw_wall(t_cub *cub, int x, int y);
 void			draw_colone(t_cub *cub, int x, int y);
 void			draw_line(t_cub *cub, int x, int y);
-void			draw_empty(t_cub *cub, int x, int y);
-void			draw_player_position(t_cub *cub);
-void			draw_map(t_cub *cub);
 void			my_mlx_pixel_put(t_cub *data, int x, int y, int color);
-void			rays(t_cub *pos);
-double			calcul_distance(t_cub *cub);
 void			ft_free(char **str);
 void			init_tpars1(t_pars1 *p);
 void			init_pl(t_player *pl);
