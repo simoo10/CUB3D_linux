@@ -6,7 +6,7 @@
 /*   By: met-tahe <met-tahe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 22:46:30 by met-tahe          #+#    #+#             */
-/*   Updated: 2023/11/24 16:43:16 by met-tahe         ###   ########.fr       */
+/*   Updated: 2023/11/24 16:56:34 by met-tahe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void	check_last_line(char *map, int i, int count2)
 
 int	check_line(char *map, int k, int j, int count)
 {
-	if (map[k] != '1' || map[ft_strlen(map) - 1] != '1')
+	if (map[k] != '1' || (map[ft_strlen(map) - 1] != '1'
+			&& map[ft_strlen(map) - 1] != ' '))
 		error_msg("------Oops!Map Should surrounded by wall!\n");
 	if (map[j] == 'S' || map[j] == 'N' || map[j] == 'W' || map[j] == 'E')
 		count++;
