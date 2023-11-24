@@ -6,7 +6,7 @@
 /*   By: met-tahe <met-tahe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 22:46:30 by met-tahe          #+#    #+#             */
-/*   Updated: 2023/11/22 22:46:32 by met-tahe         ###   ########.fr       */
+/*   Updated: 2023/11/24 16:43:16 by met-tahe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	map_checking(char **map)
 		while (map[p.i][p.j])
 		{
 			p.count = check_line(map[p.i], p.k, p.j, p.count);
-			if (map[p.i][p.j] == '0')
+			if (map[p.i][p.j] == '0' || player_check(map[p.i][p.j]))
 				check_around_zero(map, p.i, p.j);
 			p.j++;
 		}

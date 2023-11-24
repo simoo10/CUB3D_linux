@@ -2,7 +2,7 @@ CC      = cc
 CFLAGS	= -Wall -Wextra -Werror#-fsanitize=address
 LIBC	= ar -rc
 RM		= rm -f
-NAME	= cub3d
+NAME	= cub3D
 MLX		= minilibx-linux
 SRC		= main.c\
 			libft_utils/get_next_line.c\

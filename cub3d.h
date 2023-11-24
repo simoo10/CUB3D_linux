@@ -6,7 +6,7 @@
 /*   By: met-tahe <met-tahe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 22:46:11 by met-tahe          #+#    #+#             */
-/*   Updated: 2023/11/23 15:59:14 by met-tahe         ###   ########.fr       */
+/*   Updated: 2023/11/24 16:48:06 by met-tahe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,4 +218,5 @@ int				check_tex2(int i, char *v, t_cub *cub);
 void			fill_textures(t_cub *cub, char *v);
 void			file_existance(int fd, char *s);
 int				move_release(int keycode, t_cub *cub);
+int				player_check(char c);
 #endif

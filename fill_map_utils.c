@@ -6,7 +6,7 @@
 /*   By: met-tahe <met-tahe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 22:46:20 by met-tahe          #+#    #+#             */
-/*   Updated: 2023/11/22 22:46:22 by met-tahe         ###   ########.fr       */
+/*   Updated: 2023/11/23 22:50:44 by met-tahe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*take_paths(char *path, char *v, int *count, int i)
 	char	*s;
 
 	if (path)
-		error_msg("Oops!Something Happens!\n");
+		error_msg("-->Oops!Something Happens!\n");
 	s = ft_substr(v, i, ft_strlen(v) - (i + 1));
 	(*count)++;
 	return (s);
@@ -81,7 +81,7 @@ void	fill_textures(t_cub *cub, char *v)
 	if (check_tex2(i, v, cub) == 0)
 		return ;
 	else
-		error_msg("Oops!Something Happens!\n");
+		error_msg("==>Oops!Something Happens!\n");
 }
 
 void	file_existance(int fd, char *s)

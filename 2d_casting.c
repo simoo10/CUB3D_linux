@@ -6,7 +6,7 @@
 /*   By: met-tahe <met-tahe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 22:45:50 by met-tahe          #+#    #+#             */
-/*   Updated: 2023/11/22 22:45:53 by met-tahe         ###   ########.fr       */
+/*   Updated: 2023/11/24 16:47:21 by met-tahe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	draw_player_position(t_cub *cub)
 		while (j < 10)
 		{
 			my_mlx_pixel_put(cub, cub->player.x + i, j + cub->player.y,
-					0XFBFF00);
+				0XFBFF00);
 			j++;
 		}
 		i++;
